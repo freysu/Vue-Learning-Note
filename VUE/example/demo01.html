@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>demo01-计数器</title>
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="sub">-</button>
+        <span>{{number}}</span>
+        <button @click="add">+</button>
+    </div>
+    <!-- 事件冒泡，事件捕获，默认事件(例如跳转链接) -->
+    <script type="text/javascript">
+        var app = new Vue({
+            //选择器
+            el: "#app",
+            // 选项
+            data: {
+                number: 0,
+            },
+            methods: {
+                add() {
+                    this.number++
+                },
+                sub() {
+                    if(this.number >0){
+                        this.number--
+                    }
+                }
+            },
+        });
+    </script>
+</body>
+
+</html>

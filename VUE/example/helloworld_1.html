@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello World</title>
+    <!-- 本地vue.js文件引用 -->
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+    <!-- 在线获取vue.js文件引用 -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script> -->
+</head>
+
+<body>
+    <div id="app">
+        <!-- 表达式的意思 {{}} -->
+        <h1>{{message}}</h1>
+        <!-- <h1>{{"你好，世界 " + message }}</h1> -->
+
+        <!-- html插入图片的方式
+        <img src="../assets/img/1.jpg" alt=""> -->
+        <!-- vue插入图片的方式 v-bind:src 和 :src 是一样效果的 -->
+        <!-- <img v-bind:src="url" alt=""> -->
+        <img :src="url" alt="">
+
+        <!-- vue绑定事件的方式 @是v-on的简写 函数的括号可以省略 -->
+        <!-- <button v-on:click="sayHi()">测试按钮</button> -->
+        <button @click="sayHi()">测试按钮</button>
+
+        <button @click="changeImg()">改变图片</button>
+
+    </div>
+    <script type="text/javascript">
+        // 创建vue实例
+        // dom思路：先获取DOM，再操作节点，document.querySelector()
+        var app = new Vue({
+            //选择器
+            el: "#app",
+            // 选项
+            data: {
+                message: "hello world",
+                url: "../assets/img/1.jpg",
+            },
+            methods: {
+                sayHi() {
+                    alert("hi");
+                },
+                changeImg() {
+                    // this 可以直接找到vue的实例 this.url 就可以获取到vue实例里的url
+                    this.url = "../assets/img/2.jpg";
+                    // if (this.url == "../assets/img/1.jpg") {
+                    //     this.url = "../assets/img/2.jpg";
+                    // } else {
+                    //     this.url = "../assets/img/1.jpg";
+                    // }
+                }
+            },
+        });
+    </script>
+</body>
+
+</html>
