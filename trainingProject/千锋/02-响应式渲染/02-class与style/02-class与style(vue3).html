@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02-class与style(vue3)</title>
+    <script src="../../lib/vue.next.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        {{10+20}}
+        {{myName}}
+        {{myText}}
+        <input type="text" v-model="myText" id="">
+        <input @click="handleAdd" type="button" id="" value="add">
+
+        <div :class="classObj">动态切换class-对象写法</div>
+    </div>
+    <script>
+        // Vue2与Vue3 初始化不同
+        // new Vue({
+        //     el: "$box",
+        //     data: {
+        //         myName: "freysu"
+        //     }
+        // })
+        // 创建一个APP渲染挂载到#box
+        var obj = {
+            // 函数式写法，保证两个组件的状态池，避免相同名字变量的冲突
+            data() {
+                return {
+                    myName: "freysu",
+                    myText: "",
+                    classObj: {
+                        aa: true,
+                        bb: true,
+                        cc: false,
+                    },
+                }
+            },
+            // 兼容Vue2的方法
+            methods: {
+                handleAdd() {
+                    console.log("add:", this.myText);
+                    this.classObj.dd = true
+                }
+            }
+        }
+        Vue.createApp(obj).mount('#box')
+    </script>
+</body>
+
+</html>

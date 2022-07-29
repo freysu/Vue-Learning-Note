@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-around;
+            padding: 0.625rem;
+        }
+
+        li img {
+            width: 6.25rem;
+            /* height: 100px; */
+        }
+
+        .cart-footer {
+            display: flex;
+            justify-content: space-around;
+
+        }
+    </style>
+    <script src="../../lib/vue.next.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <div class="cart">
+            <h2 style="margin:0 auto;text-align:center">购物车</h2>
+
+            <ul v-if="dataList.length">
+                <li v-for="(item,index) in dataList" :key="item.id">
+                    <input type="checkbox" v-model="checkList" :value="item" @change="handleItemSelect()" />
+                    <img :src="item.pic" />
+                    <div>
+                        <div>{{ item.name }}</div>
+                        <div style="color: red">￥ {{ item.price }} (限购{{ item.limit }}件)</div>
+                    </div>
+                    <div>
+                        <!-- 通过disabled属性来限购 -->
+                        <button @click="item.number--" :disabled="item.number===1"> - </button>
+                        {{item.number}}
+                        <button @click="item.number++" :disabled="item.number===item.limit"> + </button>
+                    </div>
+                    <div><button @click="handleDeleteClick(index,item.id)">删除</button></div>
+                </li>
+            </ul>
+            <ul v-else>
+                <li>空空如也</li>
+            </ul>
+
+            <div class="cart-footer">
+                <div>
+                    <!-- <button @click="checkList = isAllSelect?dataList:[]; isAllSelect=!isAllSelect">
+                        {{isAllSelect?"全选":"全不选"}}
+                    </button> -->
+                    <input type="checkbox" v-model="isAllSelect" @change="handleAllSelect()">{{isAllSelect?"全不选":"全选"}}
+                </div>
+
+
+                <!-- 直接双向绑定对象，然后再通过访问checkList中每一项item的价格price和属性number计算总和 -->
+                总金额: {{sum()}}
+                <button @click="handleSubmitClick">提交订单</button>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        var obj = {
+            data() {
+                return {
+                    isAllSelect: false,
+                    total: 0,
+                    checkList: [], // 勾选的商品
+                    dataList: [{
+                            name: '商品1',
+                            price: 10,
+                            number: 1,
+                            id: 1,
+                            limit: 5,
+                            pic: 'https://picsum.photos/1920/1080?random=1'
+                        },
+                        {
+                            name: '商品2',
+                            price: 20,
+                            number: 1,
+                            id: 2,
+                            limit: 10,
+                            pic: 'https://picsum.photos/1920/1080?random=2'
+                        },
+                        {
+                            name: '商品3',
+                            price: 30,
+                            number: 1,
+                            id: 3,
+                            limit: 15,
+                            pic: 'https://picsum.photos/1920/1080?random=3'
+                        }
+                    ]
+                }
+            },
+            methods: {
+                sum() {
+                    // 累加计算 checkList 数组的每一项的价格和数量
+                    let total = 0
+                    this.checkList.forEach((item) => {
+                        total += item.price * item.number
+                    })
+                    this.total = total
+                    return total
+                },
+                handleDeleteClick(index, id) {
+                    // 删除dataList - index
+                    this.dataList.splice(index, 1)
+                    // 删除checkList - id
+                    // 如果item.id === id，则删除不显示,否则不删除就显示在页面中
+                    this.checkList = this.checkList.filter((item) => item.id !== id)
+                    this.handleItemSelect()
+                },
+                handleAllSelect() {
+                    this.checkList = this.isAllSelect ? this.dataList : []
+                },
+                handleItemSelect() {
+                    // 通过change事件如果当前checklist的长度小于dataList的长度不相等就是没有全选
+                    this.isAllSelect =
+                        this.checkList.length !== 0 ?
+                        (this.checkList.length !== this.dataList.length ? false : true) :
+                        false
+                },
+                handleSubmitClick() {
+                    this.checkList.length ? alert(`提交订单成功，需要支付${this.total}元！即将前往支付详情页！`) : alert("请选择商品！")
+                }
+            }
+        }
+        var vm = Vue.createApp(obj).mount('#box')
+
+        /**
+         * Vue是深度拦截的，递归会把所有属性拦截。
+         * Vue是数据驱动
+         */
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>title</title>
+    <style>
+    </style>
+    <script src="../../lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        {{myText}}
+        <textarea v-model="myText" name="" id="" cols="30" rows="10"></textarea>
+
+        <div>
+            <div>用户名：<input v-model="myText" type="text" name="" id=""></div>
+            <!-- 此时如果isRememberMe为true就勾选 -->
+            <input type="checkbox" v-model="isRememberMe">记住用户名
+            <button @click="handleLogin">登录</button>
+        </div>
+
+        <div>
+            <h2>注册页面-兴趣爱好</h2>
+            <!-- checkbox: 绑定的是同一个状态，用数组来绑定值 多选 数组 -->
+            <input type="checkbox" v-model="checkList" value="vue"> vue
+            <input type="checkbox" v-model="checkList" value="react"> react
+            <input type="checkbox" v-model="checkList" value="wx"> 小程序
+        </div>
+        {{checkList}}
+
+        <div>
+            <h2>性别选择</h2>
+            <!-- 绑定的是同一个状态,单选 字符串 -->
+            <input type="radio" v-model="sex" value="1"> 男
+            <input type="radio" v-model="sex" value="0"> 女
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#box',
+            data: {
+                myText: localStorage.getItem('username'),
+                isRememberMe: false,
+                checkList: [],
+                sex: ''
+            },
+            methods: {
+                handleLogin: function () {
+                    if (this.isRememberMe) {
+                        //记住用户名
+                        localStorage.setItem("username", this.myText);
+                    }
+                    console.log(this.myText, ...this.checkList, this.sex);
+                }
+            }
+        });
+        /**
+         * Vue 架构模式 
+         * MVC,MVVM(双向数据绑定)
+         */
+    </script>
+</body>
+
+</html>

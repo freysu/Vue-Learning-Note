@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>01-class&style</title>
+	<style>
+		.aa {}
+
+		.bb {}
+
+		.cc {}
+	</style>
+	<script src="../../lib/vue.js"></script>
+</head>
+
+<body>
+	<div id="box">
+		<div :class="classObj" id="tar">动态切换class-1-对象</div>
+		<div :class="classArr" id="tar1">动态切换class-2-数组</div>
+
+		<div :style="styleObj" id="tar2">动态切换style-1-对象</div>
+		<div :style="styleArr" id="tar3">动态切换style-2-数组</div>
+	</div>
+	<script>
+		var vm = new Vue({
+			el: "#box",
+			data() {
+				return {
+					classObj: {
+						aa: true,
+						bb: true,
+						cc: false
+					},
+					classArr: ['aa', 'bb'],
+					styleObj: {
+						backgroundColor: "red" // css属性在js中的写法
+					},
+					styleArr: [{
+						backgroundColor: "yellow" // css属性在js中的写法
+					}] // vm.styleArr.push({fontSize:"30px"}) // 可以直接通过这样添加到
+				}
+			},
+			methods: {
+
+			}
+		});
+		/*
+		 * data:{classObj: {aa: true,bb: true,cc: false}}
+		 * 当aa、bb为true，c为false，id为tar的标签的类名为aa bb。
+		 * 如果cc为true（vm.classObj.cc = true），就变成aa bb cc 
+		 * 如果在控制台直接vm.classObj.dd = true，则不会出现aa bb dd，因为后加的没有被监听拦截。
+		 * -> 正确做法是通过Vue.set(vm.classObj,"dd",true)
+		 * 因为Vue2会在初始化的时候把所有data里的数据全部都拦截，后加的不会被拦截。
+		 * Vue2的问题：无法侦听到某个对象的某个临时被删掉或者临时被新增的属性，Object.defineProperty的瓶颈
+		 * Vue2解决方案：
+		 * 在初始化后，如果要新加属性，则需要先用Vue.set(对象，属性，要赋给属性的值)，后面就正常操作了，只需要set一次。
+		 * Vue3 支持对象的动态增加属性的拦截
+		 * 
+		 * data:{classArr: ['aa','bb']}
+		 * 通过vm.classArr.push('dd')来新增的话是可以的，因为作者把数组的方法基本都重写了，删除也可以，甚至赋值成空数组。
+		 */
+	</script>
+</body>
+
+</html>

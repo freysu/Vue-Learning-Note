@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02-axios</title>
+    <style>
+        li {
+            overflow: hidden;
+            list-style: none;
+            padding: 10px;
+        }
+
+        li img {
+            float: left;
+            width: 100px;
+        }
+    </style>
+    <script src="../../lib/vue.js"></script>
+    <script src="../lib/axios.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <button @click="handleClick">ajax-fetch11</button>
+        <ul>
+            <li v-for="(data,index) in dataList" :key="data.filmId">
+                <img :src="data.poster" alt="">
+                <div class="item-content">
+                    <div>{{data.name}} | {{data.filmType.name}}</div>
+                    <div v-if="data.grade">观众评分：{{data.grade}}</div>
+                    <div v-else><br /></div>
+                    <div>主演：{{Array.from(data.actors,({name})=>name).toString().replaceAll(","," ")}}</div>
+                    <div>{{data.nation}} | {{data.runtime}}分钟</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data() {
+                return {
+                    dataList: []
+                }
+            },
+            methods: {
+                handleClick() {
+                    axios.get("./json/maoyan.json").then(res => {
+                        // axios 中真正的数据
+                        console.log(res.data);
+                        this.dataList = res.data.data.films
+                    })
+
+                    /**
+                     * 
+                     * axios - post
+                     * 可以省略请求内容的格式content-type，直接传对象或者字符串
+                     * 1. axios.post("xxx","name=freysu&age=100")
+                     * 2. axios.post("xxx",{name:"freysu",age:"100"})
+                     */
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

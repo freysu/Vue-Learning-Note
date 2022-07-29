@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>title</title>
+    <style>
+    </style>
+    <script src="../../lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <!-- input与onchange事件区别 -->
+        <!-- input 输入框的 onchange 事件，要在 input 失去焦点的时候才会触发；-->
+        <!-- 在输入框内容变化的时候不会触发 onchange，当鼠标在其他地方点一下才会触发； -->
+        <!-- 原生中onchange => vue中change  input事件没改名-->
+        <input type="text" @input="handleInput" v-model:value="myText" id="">
+        <!-- 有条件地跳过循环的执行，那么可以将 v-if 置于外层元素 (或 <template>) 上 -->
+        <ul class="new" v-if="newDataList.length > 0">
+            <li v-for="data in newDataList" :key="data">
+                {{data}}
+            </li>
+        </ul>
+        <ul class="old" v-else>
+            <li v-for="data in dataList" :key="data">
+                {{data}}
+            </li>
+        </ul>
+
+        <!-- 另一种写法 -->
+        <!-- <ul>
+            <li v-for="data in dataList" :key="data">
+                {{data}}
+            </li>
+        </ul> -->
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#box',
+            data() {
+                return {
+                    myText: '',
+                    dataList: ['aaa', 'add', 'bbb', 'bbc', 'ccc', 'ddd', 'eee', 'ade'],
+                    newDataList: [],
+                    // originList: ['aaa', 'add', 'bbb', 'bbc', 'ccc', 'ddd', 'eee', 'ade'],
+                }
+            },
+            methods: {
+                // 可以通过双向绑定来获取输入的值，不需要通过event.target.value来获取，因为双向绑定会自动更新
+                // 输入事件函数的this指向是window对象
+                handleInput() {
+                    // filter过滤this.dataList中某一个值
+                    this.newDataList = this.dataList.filter(data => {
+                        return data.indexOf(this.myText) > -1;
+                    });
+
+                    // // 另一种写法
+                    // this.dataList = this.originList.filter(data => {
+                    //     return data.indexOf(this.myText) > -1;
+                    // });
+                    // includes('') 包含某一个字符
+                    this.dataList = this.originList.filter(item => item.includes(this.myText));
+                },
+            }
+        });
+        // es5 filter 过滤
+        // 要过滤的数组.filter(过滤函数) 过滤函数的参数是每一个数组元素，返回值是true或false还可以是某个比较表达式(例如item > 3)
+        var arr = ['aaa', 'bbb', 'ccc', 'ddd', 'bbc', 'add', 'ade'];
+        var newList = arr.filter(item => item.includes('a'));
+        console.log(newList);
+    </script>
+</body>
+
+</html>

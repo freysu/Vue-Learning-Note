@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>todolist</title>
+		<script src="../../lib/vue.js"></script>
+	</head>
+	<body>
+		<div id="box">
+			<!-- 双向绑定了一个输入框的value -->
+			<input type="text" value="" v-model="myText">
+			<input type="button" @click="handleAdd()" value="add">
+			<!-- 长度大于0 为真  -->
+			<ul v-show="dataList.length">
+				<li v-for="(data,index) in dataList" :key="index">
+					{{data}}
+					<input type="button" value="del" @click="handleDel(index)">
+				</li>
+			</ul>
+			<!-- 取反 当长度为0的时候取反也为假 -->
+			<div v-show="!dataList.length">待办事项空空如也</div>
+		</div>
+		<script>
+			new Vue({
+				el: "#box",
+				data() {
+					return {
+						myText: '',
+						dataList: ['111', '222', '3333'],
+					}
+				},
+				methods: {
+					handleAdd() {
+						// console.log("获取value：", this.myText);
+						this.dataList.push(this.myText)
+						this.myText = ""
+					},
+					handleDel(index) {
+						// console.log(index);
+						// 删除，splice
+						this.dataList.splice(index, 1)
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

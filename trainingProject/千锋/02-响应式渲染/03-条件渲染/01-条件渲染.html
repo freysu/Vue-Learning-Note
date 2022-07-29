@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01-条件渲染</title>
+    <style>
+    </style>
+    <script src="../../lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <!-- <div v-if="isCreated">1111</div>
+        <div v-else="isCreated">2222</div> -->
+        <h2>所有订单</h2>
+        <ul>
+            <li v-for="(item,index) in dataList" :key="index">{{item.title}} ---
+                <span v-if="item.state===0">未支付</span>
+                <span v-else-if="item.state===1">待发货</span>
+                <span v-else-if="item.state===2">已发货</span>
+                <span v-else>已签收</span>
+            </li>
+        </ul>
+
+    </div>
+    <script>
+        new Vue({
+            el: "#box",
+            data() {
+                return {
+                    isCreated: false,
+                    dataList: [{
+                        title: "11111",
+                        // 模拟状态码
+                        state: 0
+                    }, {
+                        title: "22222",
+                        state: 1
+                    }, {
+                        title: "33333",
+                        state: 2
+                    }, {
+                        title: "44444",
+                        state: 3
+                    }]
+                }
+            },
+        });
+    </script>
+</body>
+
+</html>

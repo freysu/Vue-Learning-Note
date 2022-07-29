@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>todoList</title>
+	<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+	<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+		integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous" />
+	<style>
+		.red {
+			background-color: red;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app" class="text-center">
+		<div class="h1Div">
+			<h1>todoList</h1>
+		</div>
+		<hr />
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<td>选择</td>
+					<td>商品</td>
+					<td>价格</td>
+					<td>删除</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr @click="togglesClass(product)" :class="product.isRed? 'red':''"
+					v-for="(product, index) in productList" :key="index">
+					<td><input type="checkbox" name="" id="" /></td>
+					<td>{{product.productName}}</td>
+					<td>{{product.productPrice}}</td>
+					<td>
+						<button class="btn btn-warning btn-xs glyphicon glyphicon-remove"></button>
+					</td>
+				</tr>
+				<tr>
+					<td><button class="btn btn-danger btn-xs">删除选中</button></td>
+					<td colspan="3">总价：{{price}}元</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+	<script>
+		var vm = new Vue({
+			el: "#app",
+			data() {
+				return {
+					price: 0,
+					productList: [{
+							productName: "衣服",
+							productPrice: 100,
+							isRed: false,
+						},
+						{
+							productName: "鞋子",
+							productPrice: 200,
+							isRed: false,
+						},
+						{
+							productName: "手机",
+							productPrice: 9999,
+							isRed: false,
+						},
+						{
+							productName: "电脑",
+							productPrice: 5500,
+							isRed: false,
+						},
+						{
+							productName: "书本",
+							productPrice: 50,
+							isRed: false,
+						},
+						{
+							productName: "耳机",
+							productPrice: 5000,
+							isRed: false,
+						},
+						{
+							productName: "平板",
+							productPrice: 10000,
+							isRed: false,
+						},
+					],
+				};
+			},
+			methods: {
+				togglesClass(product) {
+					product.isRed = !product.isRed;
+				},
+			},
+			computed: {
+				sum() {
+
+				}
+			}
+		});
+	</script>
+</body>
+
+</html>

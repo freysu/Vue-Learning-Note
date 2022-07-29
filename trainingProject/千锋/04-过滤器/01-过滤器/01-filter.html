@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03-maoyan</title>
+    <script src="../../lib/vue.js"></script>
+    <script src="../../lib/axios.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <button @click="handleAjax">click-ajax</button>
+        <ul>
+            <li v-for="item in dataList" :key="item.id">
+                <!--  通过 | 管道符 传递到imgFilter1然后再传递到imgFilter2 过滤器可以链式调用 -->
+                <img :src="item.img | imgFilter1 | imgFilter2">
+                {{item.nm}}
+            </li>
+        </ul>
+    </div>
+    <script>
+        new Vue({
+            el: "#box",
+            data() {
+                return {
+                    dataList: []
+                }
+            },
+            methods: {
+                handleAjax() {
+                    axios.get('./json/maoyan1.json').then(res => {
+                        console.log(res.data.data.hot)
+                        this.dataList = res.data.data.hot
+                    })
+                }
+            },
+        });
+
+        // Vue3 过滤器不支持
+        // 将传递过来的参数进行过滤处理
+        Vue.filter("imgFilter1", (imgPath) => {
+            return imgPath
+        })
+        // 将传递过来的参数进行过滤处理
+        Vue.filter("imgFilter2", (imgPath) => {
+            return imgPath
+        })
+    </script>
+</body>
+
+</html>

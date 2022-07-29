@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		<script src="../../lib/vue.js"></script>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+
+			ul {
+				display: flex;
+				list-style: none;
+			}
+
+			li {
+				flex: 1;
+				height: 50px;
+				line-height: 50px;
+				text-align: center;
+			}
+
+			.active {
+				background-color: green;
+			}
+		</style>
+
+	</head>
+	<body>
+		<div id="box">
+			<ul>
+				<li v-for="(data,index) in dataList" :key="index" :class="curIndex === index ?'active':'' "
+					@click="handleClick(index)">
+					{{data}}
+				</li>
+			</ul>
+		</div>
+		<script>
+			new Vue({
+				el: '#box',
+				data() {
+					return {
+						dataList: ['首页', '列表', '我的'],
+						curIndex: 0
+					}
+				},
+				methods: {
+					handleClick(index) {
+						console.log(index);
+						this.curIndex = index;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

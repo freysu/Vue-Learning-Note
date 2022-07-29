@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>模板语法</title>
+		<script src="../../lib/vue.js"></script>
+		<style>
+			.red {
+				background-color: red;
+			}
+
+			.yellow {
+				background-color: yellow;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 插值语法：除了支持变量还支持状态、表达式 -->
+			{{myName}} - {{myAge}}
+			<!-- 动态绑定属性 除了支持变量还支持状态、表达式 :class="isColor?'red':'yellow'" 注意其中的引号-->
+			<!-- :class = v-bind:class  -->
+			<div v-bind:class="whichColor">切换背景色111</div>
+			<div :class="isColor?'red':'yellow'">切换背景色222</div>
+			<!-- @click = v-on:click 动态绑定事件-->
+			<input type="button" v-on:click="handlechange()" value="change">
+
+			<!-- v-show v-if 指令 -->
+			<!-- v-show 网页加载后以及创建好了，如果值是false，只是被设成display:none -->
+			<div v-show="isShow">我是动态显示和隐藏</div>
+			<!-- v-if 如果值是false就不创建 -->
+			<div v-if="isCreated">我是动态创建和删除</div>
+			<img v-show="isShow" :src="imgPath" alt="">
+
+			<ul v-for="(item,index) in list" :key="index">
+				<li>数组list的第 {{index}} 位元素是 {{item}} </li>
+			</ul>
+		</div>
+		<script>
+			new Vue({
+				el: '#app',
+				// 数据
+				data() {
+					return {
+						myName: 'freysu',
+						myAge: 100,
+						whichColor: "red",
+						isColor: true,
+						imgPath: "./",
+						isShow: false,
+						isCreated: false,
+						list: ['aaa', 'bb', 'ccc', 'ddd']
+					}
+				},
+				// 方法
+				methods: {
+					// ES6
+					handlechange() {
+						// console.log("⭐", 'handlechange:this ', this)
+						// this指向的是Vue实例
+						this.myName = "szf"
+						this.myAge = 22
+						this.whichColor == "red" ? this.whichColor = "yellow" : this.whichColor = "red"
+						this.isColor = !this.isColor // 布尔取反
+						this.isShow = !this.isShow
+						this.isCreated = !this.isCreated
+						this.imgPath =
+							"https://tse3-mm.cn.bing.net/th/id/OIP-C.hCt3WQ9gmjcYArjRkci1QAAAAA?w=167&h=180&c=7&r=0&o=5&dpr=1.35&pid=1.7"
+					}
+					// ES5
+					// handleChange:function(){}
+				}
+			})
+		</script>
+	</body>
+</html>

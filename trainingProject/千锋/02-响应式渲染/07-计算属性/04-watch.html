@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>title</title>
+    <style>
+    </style>
+    <script src="../../lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <!-- 不用监听input事件，直接watch侦听myText变量 -->
+        <input type="text" v-model="myText" id="">
+        <ul class="new" v-if="newDataList.length > 0">
+            <li v-for="data in newDataList" :key="data">
+                {{data}}
+            </li>
+        </ul>
+        <ul class="old" v-else>
+            <li v-for="data in dataList" :key="data">
+                {{data}}
+            </li>
+        </ul>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#box',
+            data() {
+                return {
+                    myText: '',
+                    dataList: ['aaa', 'add', 'bbb', 'bbc', 'ccc', 'ddd', 'eee', 'ade'],
+                    newDataList: [],
+                }
+            },
+            // watch重视过程，监听某个值的改变，不用返回值，可以异步或者同步
+            watch: {
+                // 侦听myText这个变量
+                myText(newVal) {
+                    console.log("myText改成：", newVal);
+                    // 异步
+                    setTimeout(() => {
+                        // filter过滤this.dataList中某一个值
+                        this.newDataList = this.dataList.filter(data => data.includes(this.myText));
+                    }, 1000);
+                }
+            },
+        });
+    </script>
+</body>
+
+</html>

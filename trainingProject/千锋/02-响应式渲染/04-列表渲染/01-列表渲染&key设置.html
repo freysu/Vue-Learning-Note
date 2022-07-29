@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>title</title>
+    <style>
+    </style>
+    <script src="../../lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <ul>
+            <li v-for="(item,index) of dataList" :key="index">
+                <span @click="ddd">ccc</span>
+                {{item}} - {{index}}
+            </li>
+        </ul>
+        <ul>
+            <li v-for="(item,key) of obj" :key="key">
+                {{item}} - {{key}}
+            </li>
+        </ul>
+        <ul>
+            <!-- 数字遍历从1开始,可以快速地写假数据 -->
+            <li v-for="item in 10">
+                {{item}}
+            </li>
+        </ul>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data() {
+                return {
+                    dataList: ["1111", "2222", "3333"],
+                    obj: {
+                        name: "freysu",
+                        age: 100,
+                        location: "Sheathed"
+                    },
+                }
+            },
+            methods: {
+                ddd() {
+                    window.console.log(this.dataList)
+                }
+            }
+        });
+        /*
+         *- v-for 的 of 或者in 之间没有区别. 特殊:v-for="n in 10" 数字遍历从1开始,可以快速地写假数据
+         *-  key:
+         *    1. 跟踪每个节点的身份,从而重用和重新排序现有元素
+         *    2. 理想的key值是每项都有的且唯一的id. item.id
+         *- 数组更新状态
+         *    - 使用以下方法操作数组,会对原数组产生影响，可以检测变动
+         *        push()、pop() 、shift() 、unshift() 、splice() 、sort() 、reverse()
+         *        - push() 追加一个或多个元素到数组的末尾
+         *        - pop() 从数组的末尾移除一个元素
+         *        - shift() 从数组的开头移除一个元素
+         *        - unshift() 追加一个或多个元素到数组的开头
+         *        - splice() 通过删除或替换现有元素或者原地添加新的元素来修改数组，并以数组形式返回被修改的内容。插入或删除一个或多个元素,括号里面放起点，删除个数，添加元素（可选）
+         *        - sort() 排序数组
+         *        - reverse() 反转数组
+         *    - 使用以下方法操作数组,都不会对原数组产生影响，新数组替换旧数组
+         *        filter() 、concat() 和 slice() 、map() 
+         *          - filter() 新数组包含与给定函数返回true的所有元素
+         *          - concat() 新数组包含两个或更多数组的所有元素
+         *          - slice() 这一对象是一个由 begin 和 end 决定的原数组的浅拷贝（包括 begin，不包括 end）。原始数组不会被改变。
+         *          - map() 新数组包含与给定函数返回值的所有元素
+         *    - 不能检测以下变动的数组
+         *       Vue 不能检测以下数组的变动：
+         * 
+         *      当你利用索引直接设置一个数组项时，例如：vm.items[indexOfItem] = newValue
+         *      当你修改数组的长度时，例如：vm.items.length = newLength
+         *      举个例子：
+         *      
+         *      var vm = new Vue({
+         *        data: {
+         *          items: ['a', 'b', 'c']
+         *        }
+         *      })
+         *      vm.items[1] = 'x' // 不是响应性的
+         *      vm.items.length = 2 // 不是响应性的
+         *      为了解决第一类问题，以下两种方式都可以实现和 vm.items[indexOfItem] = newValue 相同的效果，同时也将在响应式系统内触发状态更新：
+         *      
+         *      // Vue.set
+         *      Vue.set(vm.items, indexOfItem, newValue)
+         *      // Array.prototype.splice
+         *      vm.items.splice(indexOfItem, 1, newValue)
+         *      你也可以使用 vm.$set 实例方法，该方法是全局方法 Vue.set 的一个别名：
+         *      
+         *      vm.$set(vm.items, indexOfItem, newValue)
+         *      为了解决第二类问题，你可以使用 splice：
+         *      
+         *      vm.items.splice(newLength)
+         */
+        /* 
+         * vdom,vnode,virtual dom,virtual node
+         * 虚拟Dom ：JS对象描述的节点
+         * Vue：任何数据被加载到页面中，会经历一次虚拟Dom环节，用虚拟Dom来描述未来的节点的内容，再创建真实Dom
+         * 先创建一份虚拟Dom创建真实Dom
+         * v-for ["111","222","333"] 
+         * ->创建一个虚拟DOM [{tag:'li',text:'111'},{tag:'li',text:'222'},{tag:'li',text:'333'}]
+         * -> 创建一个真实DOM <li>111</li><li>222</li><li>333</li>
+         * 当删掉数组中的某个值时，比如删掉"222"
+         * -> 就会创建一个新的虚拟DOM [{tag:'li',text:'111'},{tag:'li',text:'333'}]
+         * -> 就会把新的虚拟DOM和旧的虚拟DOM进行diff对比(different 找不同),标记成修改然后再删除
+         * -> 以最小的代价进行一个patch更新成真实DOM
+         * -> 最后通过设置key来跟踪每个节点的身份,从而重用和重新排序现有元素，理想的key值是每项都有的且唯一的id. item.id，如果实在没有item.id的话用item也行，直接设置成index不适用删除，如果是push向后追加就没有影响
+         */
+        /* 
+         * 目前学习到的Vue原理 
+         * 先通过Object.defineProperty的getter和setter拦截，每次修改数据通过setter方法拦截到了就通知watcher，
+         * 我的watcher收录了当前状态在页面中所有用到的地方，组件相关的代码继续更新，
+         * 虚拟DOM树 在这一过程中就会根据最新的数据创建一份新的虚拟DOM节点再对比老的虚拟DOM节点，然后(diff)在对比的过程中以最小的代价找到不同之处，在更新到真实的DOM节点中
+         * 
+         * 每个组件实例都对应一个 watcher 实例，它会在组件渲染的过程中把 “接触” 过的数据 property 记录为依赖。之后当依赖项的 setter 触发时，会通知 watcher，从而使它关联的组件重新渲染。
+         */
+    </script>
+</body>
+
+</html>

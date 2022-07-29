@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>title</title>
+    <style>
+        li {
+            overflow: hidden;
+            list-style: none;
+            padding: 10px;
+        }
+
+        li img {
+            float: left;
+            width: 100px;
+        }
+    </style>
+    <script src="../../lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <button @click="handleFetch">ajax-fetch11</button>
+        <ul>
+            <li v-for="(data,index) in dataList" :key="data.filmId">
+                <img :src="data.poster" alt="">
+                <div class="item-content">
+                    <div>{{data.name}} | {{data.filmType.name}}</div>
+                    <div v-if="data.grade">观众评分：{{data.grade}}</div>
+                    <div v-else><br /></div>
+                    <div>主演：{{Array.from(data.actors,({name})=>name).toString().replaceAll(","," ")}}</div>
+                    <div>{{data.nation}} | {{data.runtime}}分钟</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data() {
+                return {
+                    dataList: []
+                }
+            },
+            methods: {
+                handleFetch() {
+                    // fetch('./json/test.json')
+                    //     // 状态码，响应头，拿不到真正数据，需要return res.json()，在读取res
+                    //     .then(res => res.json())
+                    //     .then(res => {
+                    //         console.log(res)
+                    //     }).catch(err => {
+                    //         console.error(err)
+                    //     })
+
+                    fetch('./json/maoyan.json')
+                        // 状态码，响应头，拿不到真正数据，需要return res.json()，在读取res
+                        .then(res => res.json())
+                        .then(res => {
+                            console.log(res.data.films);
+                            this.dataList = res.data.films
+                        }).catch(err => {
+                            console.error(err)
+                        })
+
+                }
+            }
+        });
+
+        /**
+         * 
+         * AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）。
+         * AJAX 不是新的编程语言，而是一种使用现有标准的新方法。
+         * AJAX 最大的优点是在不重新加载整个页面的情况下，可以与服务器交换数据并更新部分网页内容。
+         * AJAX 不需要任何浏览器插件，但需要用户允许 JavaScript 在浏览器上执行。
+         * 
+         * fetch
+         * XMLHttpRequest 是一个设计粗糙的API，配置和调用方式非常混乱，而且基于事件的异步模型写起来不友好，兼容性不好
+         * polyfill(补丁)：
+         * 封装成fetch的语法，如果不支持fetch就切换成XMLHttpRequest
+         * https://github.com/camsong/fetch-ie8
+         * 
+         * fetch - get
+         * url路径 ?name=freysu&age=100 可以用？&来拼接
+         * 将结果转成json格式
+         * fetch('xxx').then(res=>res.json()).then(res=>{console.log(res)})
+         * 将结果转成文本格式需要用JSON.parse()来解析
+         * fetch('xxx').then(res=>res.text()).then(res=>{console.log(res)})
+         * 
+         * fetch - post
+         * body请求体：
+         * 1. x-www-form-urlencoded : name=freysu&age=100
+         * 2. json, `{"name":"freysu","age":100}`
+         * 
+         * fetch-post-1
+         * fetch("xxx", {
+         *      method: "POST", //方法
+         *      // 请求头
+         *      headers: {
+         *         // 请求的内容类型
+         *         "Content-Type": "application/x-www-form-urlencoded",
+         *     },
+         *      // body请求体
+         *     body: "name=freysu&age=100",
+         * }).then(res => res.json()).then(res => {
+         *     console.log(res)
+         * });
+         * 
+         * fetch-post-2
+         * fetch("xxx", {
+         *    method: "POST",
+         *     headers: {
+         *         "Content-Type": "application/json"
+         *     },
+         *     body: JSON.stringify({
+         *         "name": "freysu",
+         *         "age": 100
+         *     })
+         * }).then(res => res.json()).then(res => {
+         *     console.log(res)
+         * });
+         */
+    </script>
+</body>
+
+</html>

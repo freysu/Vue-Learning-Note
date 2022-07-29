@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>title</title>
+    <style>
+    </style>
+    <script src="../../lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <!-- template标签安装节点,可以不破坏Dom结构 -->
+        <template v-if="isCreated">
+            <div>11111</div>
+            <div>22222</div>
+            <div>33333</div>
+        </template>
+        <!-- 会破坏Dom结构 -->
+        <!-- <div v-if="isCreated">
+            <div>11111</div>
+            <div>22222</div>
+            <div>33333</div>
+        </div> -->
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data() {
+                return {
+                    isCreated: true,
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>title</title>
+    <style>
+    </style>
+    <script src="../../lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <!-- lazy修饰符 -->
+        <input type="text" v-model.lazy="myText">
+        {{myText}}
+        <!-- .number修饰符 数字类型 -->
+        <input type="number" v-model.number="myAge">
+        <!-- .trim修饰符 去除首尾空位 -->
+        <input type="text" v-model.trim="myUsername">
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data() {
+                return {
+                    myText: "",
+                    myAge: 0,
+                    myUsername: ''
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

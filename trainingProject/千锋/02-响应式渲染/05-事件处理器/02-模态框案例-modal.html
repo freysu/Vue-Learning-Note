@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>title</title>
+    <style>
+        /* 覆盖层 */
+        #overlay {
+            background: rgb(0, 0, 0, 0.6);
+            width: 100%;
+            margin: auto;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+
+        #center {
+            background: #fff;
+            border-radius: 5px;
+            padding-top: 15px;
+            padding-left: 30px;
+            padding-bottom: 15px;
+            width: 290px;
+            height: 160px;
+            position: fixed;
+            margin: auto;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+    </style>
+    <script src="../../lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <button @click="isShow = true">show</button>
+        <!-- <div v-show="isShow" id="overlay" @click="isShow=false">
+            <div id="center" @click.stop>
+                <div>用户名：<input type="text" name="" id=""></div>
+                <div>密码：<input type="password" name="" id=""></div>
+                <div><button @click="isShow=false">登录</button></div>
+            </div>
+        </div> -->
+        <div v-show="isShow" id="overlay" @click.self="isShow = false">
+            <div id="center">
+                <div>用户名：<input type="text" name="" id="" /></div>
+                <div>密码：<input type="password" name="" id="" /></div>
+                <div>
+                    <button @click="isShow = false">登录</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        new Vue({
+            el: '#box',
+            data() {
+                return {
+                    isShow: false
+                }
+            },
+            methods: {}
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>4-第一个Vue程序</title>
+    <style>
+        .item {
+            color: red;
+        }
+    </style>
+    <!-- 引入Vue.min.js -->
+    <script src="https://cdn.staticfile.org/vue/2.6.14/vue.js"></script>
+    <script src="http://localhost:8098"></script>
+</head>
+
+<body>
+    <div id="app">
+        {{msg}}
+        <div>
+            <!-- v-model 双向绑定 -->
+            <input type="text" v-model="info">
+            <button @click="handleClick">添加</button>
+        </div>
+        <ul>
+            <todo-item v-for="item in list" v-bind:item="item"></todo-item>
+        </ul>
+    </div>
+    <script>
+        // 1. new 一个Vue实例
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    msg: "hello world",
+                    info: "",
+                    list: []
+                }
+            },
+            methods: {
+                handleClick() {
+                    // console.log('this.info: ', this.info);
+                    this.list.push(this.info)
+                    this.info = ""
+                }
+            },
+        });
+        /**
+         * Vue.component 缺点
+         * 全局定义：强制要求每个component中的命名不能重复
+         * 字符串模板：缺乏语法高亮，在HTML有多行的时候，需要用到丑陋的\
+         * 不支持CSS：意味着当HTML和JavaScript组件化时，CSS明显被遗漏
+         * 没有构建步骤：限制只能使用HTML和ES5 JavaScript，而不能使用预处理器，如Pug(formerly Jade) 和Babel
+         */
+        Vue.component('todo-item', {
+            props: ['item'],
+            template: '<li class="item">{{item}}</li>'
+        })
+    </script>
+</body>
+
+</html>

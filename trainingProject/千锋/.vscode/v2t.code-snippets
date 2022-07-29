@@ -1,0 +1,107 @@
+{
+  // Place your 千锋 工作区 snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+  // description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+  // is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+  // used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+  // Placeholders with the same ids are connected.
+  // Example:
+  // "Print to console": {
+  // 	"scope": "javascript,typescript",
+  // 	"prefix": "log",
+  // 	"body": [
+  // 		"console.log('$1');",
+  // 		"$2"
+  // 	],
+  // 	"description": "Log output to console"
+  // }
+  "Vue2 base code template": {
+    "scope": "html",
+    "prefix": "v2t",
+    "body": [
+      "<!DOCTYPE html>",
+      "<html lang=\"zh\">",
+      "",
+      "<head>",
+      "    <meta charset=\"UTF-8\">",
+      "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">",
+      "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+      "    <title>$1</title>",
+      "    <script src=\"../../lib/vue.js\"></script>",
+      "</head>",
+      "",
+      "<body>",
+      "    <div id=\"box\">",
+      "        $2",
+      "    </div>",
+      "    <script>",
+      "        new Vue({",
+      "            el: \"#box\",",
+      "            data() {",
+      "                return {",
+      "                   $3",
+      "                }",
+      "            },",
+      "            methods: {",
+      "                   $4",
+      "            },",
+      "            computed: {",
+      "                   $5",
+      "            },",
+      "            watch: {",
+      "                   $6",
+      "            }",
+      "        });",
+      "    </script>",
+      "</body>",
+      "",
+      "</html>"
+    ],
+    "description": "生成网课Vue2基础模板代码"
+  },
+  "Vue3 base code template": {
+    "scope": "html",
+    "prefix": "v3t",
+    "body": [
+      "<!DOCTYPE html>",
+      "<html lang=\"zh\">",
+      "",
+      "<head>",
+      "    <meta charset=\"UTF-8\">",
+      "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">",
+      "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+      "    <title>$1</title>",
+      "    <script src=\"../../lib/vue.next.js\"></script>",
+      "</head>",
+      "",
+      "<body>",
+      "    <div id=\"box\">",
+      "        $2",
+      "    </div>",
+      "    <script>",
+      "        var obj = {",
+      "            el: \"#box\",",
+      "            data() {",
+      "                return {",
+      "                   $3",
+      "                }",
+      "            },",
+      "            methods: {",
+      "                   $4",
+      "            },",
+      "            computed: {",
+      "                   $5",
+      "            },",
+      "            watch: {",
+      "                   $6",
+      "            }",
+      "        }",
+      "        Vue.createApp(obj).mount(\"#box\");",
+      "    </script>",
+      "</body>",
+      "",
+      "</html>"
+    ],
+    "description": "生成网课Vue3基础模板代码"
+  }
+}

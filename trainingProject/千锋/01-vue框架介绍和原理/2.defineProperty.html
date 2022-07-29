@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+	<title>defineProperty</title>
+	<script src="../lib/vue.js"></script>
+</head>
+
+<body>
+	<div id="box">
+
+	</div>
+	<script>
+		var obj = {
+
+		};
+		var oBox = document.getElementById("box")
+
+		// 当你把一个普通的 JavaScript 对象传入 Vue 实例作为 data 选项，Vue 将遍历此对象所有的 property，并使用 Object.defineProperty 把这些 property 全部转为 getter/setter。
+		// Object.defineProperty 是 ES5 中一个无法 shim 的特性，这也就是 Vue 不支持 IE8 以及更低版本浏览器的原因。
+
+		// 面试回答：每次数据更改的时候通过setter拦截，通知watcher触发更新，watcher是观察者，它收集了很多状态相关的依赖以及发布者订阅者，触发这些订阅者进行调用吗，这样组件就会得到更新。虚拟DOM，diff算法往后会学到。
+		/**
+		 * Vue3 的变化
+		 * Object.defineProperty 有以下缺点。
+		 * 1. 无法监听ES6的Set、Map变化；
+		 * 2. 无法监听Class类型的数据 
+		 * 3. 属性的新加或者删除也无法监听
+		 * 4. 数组元素的增加和删除也无法监听
+		 * 
+		 * 针对Object.defineProperty的缺点，ES6 Proxy都能够完美地解决。
+		 * 它唯一的缺点就是对IE不友好，所以Vue3在检测到如果是使用IE的情况下（没错，IE11都不支持Proxy），会自动降级为Object.defineProperty的数据监听系统。
+		 */
+		Object.defineProperty(obj, "myName", {
+			// ES6 写法
+			get() {
+				console.log('get: '); // 当访问变量时就会触发这个函数 
+			},
+			// 修改
+			set(value) {
+				console.log('set: ', value);
+				oBox.innerHTML = value;
+			},
+			// ES5 
+			// get: function () {},
+		})
+	</script>
+</body>
+
+</html>

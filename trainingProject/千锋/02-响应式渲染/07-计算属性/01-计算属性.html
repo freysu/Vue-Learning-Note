@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>title</title>
+    <style>
+    </style>
+    <script src="../../lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <!-- 模板写法 -->
+        <!-- substring() 用于提取字符串中介于两个指定下标之间的字符。开始索引必写，结束索引可省略-->
+        <!-- toUpperCase() 返回转换为大写的调用字符串值（如果不是一个，则该值将转换为字符串）-->
+        {{ myName.substring(0, 1).toUpperCase() + myName.substring(1) }}
+
+        <!-- 计算属性，有缓存，基于依赖的缓存 -->
+        {{myComputedName}}
+        {{myComputedName}}
+        {{myComputedName}}
+
+        <!-- 方法调用 -->
+        {{myMethodsName()}}
+        {{myMethodsName()}}
+        {{myMethodsName()}}
+
+        test():{{test()}}
+        ttt:{{ttt}}
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data() {
+                return {
+                    myName: "freysu",
+                    ttt: ''
+                }
+            },
+            methods: {
+                myMethodsName() {
+                    console.log('myMethodsName-方法');
+                    return this.myName.substring(0, 1).toUpperCase() + this.myName.substring(1)
+                },
+                test() {
+                    console.log("test---------");
+                    // 此返回值将不会显示到页面，异步代码中不能return
+                    setTimeout(() => {
+                        this.ttt = "10000000"
+                        return "10000000"
+                    }, 2000);
+                }
+            },
+            // 计算的属性
+            computed: {
+                // 计算这个变量
+                myComputedName() {
+                    console.log('myComputedName-计算属性');
+                    return this.myName.substring(0, 1).toUpperCase() + this.myName.substring(1)
+                },
+            }
+        });
+
+        // 计算属性(防止模板过重，难以维护)，负责逻辑放在计算属性中来写
+        /**
+         * 1. data -> 状态，被拦截
+         * 2. 方法 -> 事件绑定，逻辑计算，可以不用return，没有缓存
+         * 3. 计算属性（重视结果）-> 解决模板过重问题，必须有return，只求结果，有缓存、同步
+         * 4. watch（重视过程），监听一个值的改变，不用返回值，异步同步
+         */
+    </script>
+</body>
+
+</html>

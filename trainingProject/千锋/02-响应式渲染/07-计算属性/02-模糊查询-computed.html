@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>title</title>
+    <style>
+    </style>
+    <script src="../../lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <input type="text" v-model:value="myText" id="">
+        <ul>
+            <li v-for="data in computedList" :key="data">
+                {{data}}
+            </li>
+        </ul>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#box',
+            data() {
+                return {
+                    myText: '',
+                    dataList: ['aaa', 'add', 'bbb', 'bbc', 'ccc', 'ddd', 'eee', 'ade'],
+                }
+            },
+            // 计算属性
+            computed: {
+                computedList() {
+                    // 计算属性对于ajax是不好用的，因为计算属性是同步的
+                    return this.dataList.filter(data => data.includes(this.myText));
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>title</title>
+    <style>
+    </style>
+    <script src="../../lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        {{count}}
+        <!-- $event Vue实例的事件对象,要加传递自定义参数和事件对象时需要在最前面加$event -->
+        <button @click="handleAdd1($event,1,2,3)">add-1-函数表达式</button>
+        <!-- 不需要传参的时候可以省略括号，不加括号时将会传入事件对象 -->
+        <!-- 用处：获取当前标签的处理时可以不加小括号然后在函数那里加个形参 -->
+        <button @click="handleAdd2">add-2-函数名</button>
+        <!-- 直接写触发代码 -->
+        <button @click="count++">add-3-表达式</button>
+
+        <input type="text" @input="handleInput" id="">
+
+        <!-- .self 如果是自身才触发，如果其他的将不触发 -->
+        <ul @click.self="handleUlClick">
+            <!-- .stop 阻止冒泡 stopPropagation-->
+            <li @click.stop="handleLiClick">1111</li>
+            <li @click="handleLiClick">2222</li>
+            <li>3333</li>
+        </ul>
+
+        <!-- .prevent 阻止默认行为 preventDefault-->
+        <a href="https://www.baidu.com" @click.prevent>跳转</a>
+
+        <!-- 按键修饰符，比如.enter就不用做判断了 也可以组合修饰（@keyup.enter.ctrl） -->
+        <!-- .esc .up .down .left .right .space .ctrl .shift .delete -->
+        <!-- <input type="text" @keyup.enter="handleKeyup"> -->
+        <!-- 任何键值也可以被绑定 -->
+        <input type="text" @keyup.65="handleKeyup">
+    </div>
+    <script>
+        new Vue({
+            el: '#box',
+            data() {
+                return {
+                    count: 1,
+                }
+            },
+            methods: {
+                handleAdd1(evt, a, b, c) {
+                    console.log('evt,a,b,c: ', evt.target, a, b, c);
+                    this.count++;
+                },
+                handleAdd2(evt) {
+                    console.log(evt.target);
+                    this.count++;
+                },
+                // v-model 语法糖
+                handleInput(evt) {
+                    console.log("input:", evt.target.value);
+                },
+                handleLiClick(evt) {
+                    console.log("li");
+                    // evt.stopPropagation();
+                },
+                handleUlClick(evt) {
+                    console.log("ul");
+                },
+                handleKeyup(evt) {
+                    // event.keyCode 当前按键的键值
+                    // console.log("keyup:", evt.keyCode);
+                    // if (evt.keyCode === 13) {
+                    //     console.log("li add:", evt.target.value);
+                    // }
+                    console.log("li add:", evt.target.value);
+
+                }
+            }
+        });
+
+        /**
+         * 事件处理：
+         * 1. 监听事件：直接触发代码
+         * 2. 方法事件处理器：写函数名 handleClick
+         * 3. 内联处理器方法-执行函数表达式 handleClick($event) $event是事件对象
+         * 4. 事件修饰符 https://cn.vuejs.org/v2/guide/events.html
+         * 5. 事件修饰符的绑定方式：
+         *    - .stop
+         *    - .self
+         *    - .prevent
+         *    - .capture
+         *    - .once
+         */
+    </script>
+</body>
+
+</html>
