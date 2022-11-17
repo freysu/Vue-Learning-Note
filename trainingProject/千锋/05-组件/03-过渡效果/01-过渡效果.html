@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-2-组件子传父</title>
+    <style>
+      /* 进场动画 */
+      .frey-enter-active {
+        animation: aaa 1.5s;
+      }
+
+      /* 离场动画 */
+      .frey-leave-active {
+        animation: aaa 1.5s reverse;
+      }
+
+      @keyframes aaa {
+        0% {
+          opacity: 0;
+          transform: translateX(-100px);
+        }
+
+        100% {
+          opacity: 1;
+          transform: translateX(0px);
+        }
+      }
+    </style>
+    <script src="../../lib/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="box">
+      <button @click="isShow =!isShow">change</button>
+      <!-- <div class="frey-enter-active" v-show="isShow">11111111111111</div> -->
+
+      <!-- transition 过渡组件 内置的 enter-active-class 进入的类名
+      leave-active-class 离开的类名
+      -->
+      <transition
+        enter-active-class="frey-enter-active"
+        leave-active-class="frey-leave-active"
+      >
+        <div class="frey-enter-active" v-show="isShow">11111111111111</div>
+      </transition>
+    </div>
+
+    <script>
+      new Vue({
+        el: '#box',
+        data() {
+          return {
+            isShow: false
+          }
+        }
+      }) // 创建根组件
+    </script>
+  </body>
+</html>

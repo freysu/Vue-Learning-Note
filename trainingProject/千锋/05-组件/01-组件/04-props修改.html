@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-1-组件父传子</title>
+    <style></style>
+    <script src="../../lib/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="box">
+      <div v-once>{{title}}</div>
+      <child :mytitle="title"></child>
+    </div>
+
+    <script>
+      Vue.component('child', {
+        props: ['mytitle'],
+        template: `
+          <div>
+            child - {{mytitle}}
+            <button @click="handleClick">change</button>
+          </div>
+        `,
+        methods: {
+          handleClick() {
+            // 数据流紊乱，避免直接修改从父组件传递过来的属性
+            // this.mytitle = '2222'
+          }
+        }
+      })
+
+      var vm = new Vue({
+        el: '#box',
+        data() {
+          return {
+            title: '1111'
+          }
+        }
+      }) // 创建根组件
+
+      /**
+       * 属性可以修改
+       * 属性 - 父组件传给你的属性，只有父组件可以重新传，但避免子组件随意修改
+       * 状态 - 组件内部的状态，可以随意修改
+       *
+       * v-once 用在组件上有什么用？
+       * 渲染普通的HTML元素在Vue中是非常快速的，但有时候你可能有一个组件，这个组件包含了大量静态内容，在这种情况下，你可以在根元素上添加 v-once 属性已确保这些内容只计算一次然后缓存起来
+       */
+    </script>
+  </body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>todolist</title>
+  <script src="../../lib/vue.js"></script>
+  <style>
+    /* 进场动画 */
+    .frey-enter-active {
+      animation: aaa 1.5s;
+    }
+
+    /* 离场动画 */
+    .frey-leave-active {
+      animation: aaa 1.5s reverse;
+    }
+
+    @keyframes aaa {
+      0% {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateX(0px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="box">
+    <!-- 双向绑定了一个输入框的value -->
+    <input type="text" value="" v-model="myText">
+    <input type="button" @click="handleAdd()" value="add">
+    <!-- 长度大于0 为真  -->
+    <ul v-show="dataList.length">
+      <transition-group name="frey" mode="out-in">
+        <!-- 如果key用index 会导致一直在给最后一个加过渡。因为diff算法+key -->
+        <li v-for="(data,index) in dataList" :key="data">
+          {{data}} -- {{index}}
+          <input type="button" value="del" @click="handleDel(index)">
+        </li>
+      </transition-group>
+    </ul>
+    <!-- 取反 当长度为0的时候取反也为假 -->
+    <div v-show="!dataList.length">待办事项空空如也</div>
+    <pre>datalist:{{dataList}}</pre>
+
+  </div>
+  <script>
+    new Vue({
+      el: "#box",
+      data() {
+        return {
+          myText: '',
+          dataList: ['111', '222', '3333'],
+        }
+      },
+      methods: {
+        handleAdd() {
+          if (this.myText === "") return false
+          // console.log("获取value：", this.myText);
+          this.dataList.push(this.myText)
+          this.myText = ""
+        },
+        handleDel(index) {
+          // console.log(index);
+          // 删除，splice
+          this.dataList.splice(index, 1)
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

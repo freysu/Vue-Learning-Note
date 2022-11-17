@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01-全局与局部</title>
+    <style>
+    </style>
+    <script src="../../lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <!-- 驼峰命名的错误写法 <freysuNavbar></freysuNavbar> -->
+        <!-- 驼峰命名的正确写法 -->
+        <freysu-navbar></freysu-navbar>
+        <child></child>
+    </div>
+    <script>
+        // 定义一个全局的组件
+        Vue.component("freysuNavbar", {
+            // dom ,js,css
+            template: `<div style="background:red">
+                <button @click="handleLeft">left</button>
+                猫眼电影 - {{myName}}
+                <button @click="handleRight">right</button>
+                <freysuChild></freysuChild>
+                </div>`,
+            methods: {
+                handleLeft() {
+                    console.log("onLeft");
+                },
+                handleRight() {
+                    console.log("onRight");
+                }
+            },
+            computed: {},
+            watch: {},
+            data() {
+                return {
+                    myName: "FreySu",
+                }
+            },
+            components: {
+                "freysuChild": {
+                    template: `<div>child</div>`
+                }
+            }
+        })
+
+        Vue.component("child", {
+            template: `<div style="background:yellow">child</div>
+            `
+        })
+
+        new Vue({
+            el: '#box'
+        })
+        /**
+         * 1. 起名：js驼峰，html连接符 - 
+         * 2. dom片段 没有代码提示，没有高亮显示 - vue单文件组件解决
+         * 3. css 只能写成行内 - vue单文件组件解决
+         * 4. template 包含一个根节点
+         * 5. 组件是孤岛，无法【直接】 访问外面的组件的状态或者方法 - 间接的组件通信来交流
+         * 6. 自定义的组件 data 必须是一个函数 
+         * 7. 所有组件都在一起，太乱了 -  vue单文件组件解决
+         */
+    </script>
+</body>
+
+</html>

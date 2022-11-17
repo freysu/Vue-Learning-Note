@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>05-动态组件</title>
+  <style></style>
+  <script src="../../lib/vue.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    footer ul {
+      display: flex;
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 40px;
+    }
+
+    footer ul li {
+      flex: 1;
+      text-align: center;
+      list-style: none;
+      height: 40px;
+      line-height: 40px;
+      background: grey;
+      color: white;
+    }
+
+    /* 进场动画 */
+    .frey-enter-active {
+      animation: aaa 1.5s;
+    }
+
+    /* 离场动画 */
+    .frey-leave-active {
+      animation: aaa 1.5s reverse;
+    }
+
+    @keyframes aaa {
+      0% {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateX(0px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="box">
+    <!-- <home v-show="which === 'home'"></home>
+      <list v-show="which === 'list'"></list>
+      <shopcar v-show="which === 'shopcar'"></shopcar> -->
+
+    <!-- 动态组件 不会复用 component组件是内置的 is绑定属性也是固定的 -->
+    <!-- 重新创建，输入的内容会丢失 要加Keep-alive,离开之后不会被销毁 keep-alive将保存到内存中，然后到加载的时候再读取出来 -->
+    <keep-alive>
+      <!-- mode="out-in" 先走后进 -->
+      <transition name="frey" mode="out-in">
+        <component :is="which"></component>
+      </transition>
+    </keep-alive>
+
+    <footer>
+      <ul>
+        <li @click="which='home'">首页</li>
+        <li @click="which='list'">列表</li>
+        <li @click="which='shopcar'">购物车</li>
+      </ul>
+    </footer>
+  </div>
+
+  <script>
+    Vue.component('home', {
+      template: `
+          <div>
+            home
+            <input type="search">
+            </div>
+        `
+    })
+    Vue.component('list', {
+      template: `
+          <div>
+            list
+            </div>
+        `
+    })
+    Vue.component('shopcar', {
+      template: `
+          <div>
+            shopcar
+            </div>
+        `
+    })
+
+    var vm = new Vue({
+      el: '#box',
+      data() {
+        return {
+          which: 'home'
+        }
+      }
+    }); // 创建根组件
+
+    /**
+     * 属性可以修改
+     * 属性 - 父组件传给你的属性，只有父组件可以重新传，但避免子组件随意修改
+     * 状态 - 组件内部的状态，可以随意修改
+     *
+     * v-once 用在组件上有什么用？
+     * 渲染普通的HTML元素在Vue中是非常快速的，但有时候你可能有一个组件，这个组件包含了大量静态内容，在这种情况下，你可以在根元素上添加 v-once 属性已确保这些内容只计算一次然后缓存起来
+     */
+  </script>
+</body>
+
+</html>

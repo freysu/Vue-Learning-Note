@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-2-bus-案例</title>
+    <script src="../../lib/vue.js"></script>
+    <style></style>
+  </head>
+
+  <body>
+    <div id="box">
+      <!-- ref 固定的属性，引用 -->
+      <input type="text" ref="mytext" />
+      <input type="password" ref="mypassword" />
+      <button @click="handleAdd">add</button>
+      <child ref="mychild"></child>
+    </div>
+
+    <script>
+      Vue.component('child', {
+        template: `<div>
+          child - {{myname}}
+          </div>`,
+        data() {
+          return {
+            myname: 'freysu'
+          }
+        }
+      })
+
+      new Vue({
+        el: '#box',
+        methods: {
+          handleAdd() {
+            // $refs
+            console.log(this.$refs)
+            console.log(
+              this.$refs.mytext,
+              this.$refs.mypassword,
+              this.$refs.mychild
+            )
+            console.log('this.$refs.mychild: ', this.$refs.mychild.myname)
+            this.$refs.mychild.myname = 'frey'
+          }
+        }
+      })
+
+      /**
+       * ref - 绑定dom节点，拿到的就是dom对象
+       * ref - 绑定组件，拿到的就是组件对象
+       *
+       * 组件通信的方案有哪些？
+       * 1. 父组件通过属性传给子组件
+       * 2. 子组件通过事件传给父组件
+       * 3. 非父非子，可以通过refs来通信，会让数据流混乱
+       */
+    </script>
+  </body>
+</html>

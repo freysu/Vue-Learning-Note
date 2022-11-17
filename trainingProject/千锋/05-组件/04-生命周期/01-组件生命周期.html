@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <script src="../../lib/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="box">
+      <pre>{{myname}}</pre>
+      <button @click="myname='xiaoming'">change myname</button>
+
+      <ul>
+        <li v-for="data in datalist" :key="data">{{data}}</li>
+      </ul>
+    </div>
+    <script>
+      // 根组件
+      new Vue({
+        el: '#box',
+        data() {
+          return {
+            myname: 'frey',
+            datalist: []
+          }
+        },
+        // 有template的话就会优先把template渲染到页面，没有就把outerHtml渲染
+        // template: `<div><pre>{{myname}}</pre><pre>{{globalName}}</pre></div>`,
+        beforeCreate() {
+          // beforeCreate 创建组件之前，访问不到data
+          console.log('beforeCreate: ', this.myname) // undefined
+        },
+        created() {
+          // created 被创建之后，状态初始化或者挂载到当前实例的一些属性
+          console.log('created: ', this.myname)
+          this.myname += ',hello~' // 这是一个被拦截的状态
+          console.log('created: ', this.myname)
+          this.globalName = 'this可以直接访问的属性值' // 这只是this下面的属性
+          // this.user = localStorage.getItem("user")
+        },
+        beforeMount() {
+          // beforeMount 在模板解析之前最后一次修改模板节点
+          console.log(document.getElementById('box').innerHTML) //<pre>{{myname}}</pre>
+          console.log(this.$el) // dom节点，但是内容还没渲染
+        },
+        mounted() {
+          // mounted 可以拿到真实的Dom节点
+          console.log(document.getElementById('box').innerHTML) // <pre>frey,hello~</pre>
+          // 依赖于dom创建之后，才进行初始化工作的插件，例如swiper轮播组件
+          // 订阅 bus.$on
+          // 发ajax
+          // fetch(url)
+          setTimeout(() => {
+            this.datalist = ['111', '222', '333']
+            // !! 不要在这里在这里获取dom
+            // 虚拟DOM创建，diff对比 - 状态立即更新，dom异步更新
+            console.log(document.getElementsByTagName('li').length === 0) // true
+          }, 2000)
+        },
+        // 组件以上4个生命周期只会走一次，后续就是无数次的beforeUpdate,updated，除非遇到beforeDestroy,destoryed
+        beforeUpdate() {
+          // 更新之前
+          console.log(
+            document.getElementsByTagName('li').length === this.datalist.length
+          ) // false
+          console.log('更新之前,记录老的DOM某些状态，比如滚动条的位置记录')
+        },
+        updated() {
+          // 更新后
+          console.log(
+            document.getElementsByTagName('li').length === this.datalist.length
+          ) // true
+          console.log('更新完成，获取更新后的DOM')
+        }
+        // // 根组件一般用不上，子组件才用得上
+        // beforeDestroy() {
+
+        // },
+        // // 根组件一般用不上，子组件才用得上
+        // destroyed() {
+
+        // },
+      })
+      // .$mount("#el") 如果vm实例中没有el这个值，就可以用这个方法
+
+      // vue组件 生命周期？
+      // vue组件的钩子函数？
+      // vue组件的生命周期钩子函数？
+    </script>
+  </body>
+</html>

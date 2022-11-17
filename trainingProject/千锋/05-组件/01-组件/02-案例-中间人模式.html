@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-案例-中间人模式</title>
+    <script src="../../lib/vue.js"></script>
+    <style>
+      .item {
+        overflow: hidden;
+        padding: 10px;
+        width: 400px;
+        border: 1px solid red;
+      }
+
+      .item img {
+        width: 100px;
+        float: left;
+      }
+
+      .film {
+        border: 1px solid black;
+        height: 1500px;
+      }
+
+      .filminfo {
+        width: 300px;
+        min-height: 200px;
+        background: yellow;
+        position: fixed;
+        right: 50px;
+        top: 100px;
+        border: 1px solid blue;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="box">
+      <button @click="handleAjax">ajax</button>
+
+      <film-item
+        v-for="item in datalist"
+        :key="item.filmId"
+        :mydata="item"
+        @event="handleEvent"
+      ></film-item>
+      {{filmData}}
+      <film-detail :film-data="filmData"></film-detail>
+    </div>
+
+    <script>
+      Vue.component('filmItem', {
+        props: ['mydata'],
+        template: `
+            <div class="item">
+                <img :src="mydata.poster"/>
+                {{mydata.name}}
+                <button @click="handleClick">详情</button>
+            </div>
+            `,
+        methods: {
+          handleClick() {
+            this.$emit('event', this.mydata.synopsis)
+          }
+        }
+      })
+
+      Vue.component('filmDetail', {
+        template: `
+            <div class="filminfo">
+                {{filmData}}
+                </div>
+            `,
+        methods: {},
+        props: ['film-data']
+      })
+
+      new Vue({
+        el: '#box',
+        data() {
+          return {
+            datalist: [],
+            filmData: ''
+          }
+        },
+        methods: {
+          handleAjax() {
+            fetch('./json/maoyan.json')
+              .then((res) => res.json())
+              .then((res) => {
+                console.log(res.data.films)
+                this.datalist = res.data.films
+              })
+          },
+          // 自定义事件处理器
+          handleEvent(data) {
+            console.log('handleEvent: ', data)
+            this.filmData = data
+          }
+        }
+      }) // 创建根组件
+    </script>
+  </body>
+</html>

@@ -17,7 +17,7 @@
   // }
   "Vue2 base code template": {
     "scope": "html",
-    "prefix": "v2t",
+    "prefix": "vue2qft",
     "body": [
       "<!DOCTYPE html>",
       "<html lang=\"zh\">",
@@ -61,7 +61,7 @@
   },
   "Vue3 base code template": {
     "scope": "html",
-    "prefix": "v3t",
+    "prefix": "vue3qft",
     "body": [
       "<!DOCTYPE html>",
       "<html lang=\"zh\">",

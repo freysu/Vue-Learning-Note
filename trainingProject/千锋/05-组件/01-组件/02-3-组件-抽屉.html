@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05-动态组件</title>
+    <style></style>
+    <script src="../../lib/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="box">
+      <!-- 当前组件或者节点 在哪个模板中，就能访问哪个模板状态 -->
+      <!-- template v-slot:Y 或者 #Y -->
+      <child>
+        <template v-slot:a>
+          <div>11111111</div>
+        </template>
+
+        <template #b>
+          <div>22222222</div>
+        </template>
+
+        <div slot="c">22222222222</div>
+        <div>44444444444</div>
+      </child>
+
+      <navbar>
+        <template #right>
+          <button>aaa</button>
+        </template>
+
+        <template #left>
+          <i class="iconfont icon-all" slot="right">字体图标</i>
+        </template>
+      </navbar>
+    </div>
+
+    <script>
+      Vue.component('navbar', {
+        template: `
+        <div>
+          <slot name="left"></slot>
+          <span>navbar</span>
+          <slot name="right"></slot>
+          </div>
+        `
+      })
+
+      Vue.component('child', {
+        // <slot></slot> 单个插槽 单个插槽写法 会child里的东西直接替换成slot
+        // 具名插槽 <slot name="a"></slot> 对号入座 <xx slot="yy"></xx>
+        template: `
+        <div>
+          child
+          <slot name="a"></slot>
+          <slot name="b"></slot>
+          <slot name="c"></slot>
+          <slot></slot>
+        </div>
+        `
+      })
+      var vm = new Vue({
+        el: '#box',
+        data() {
+          return {}
+        }
+      }) // 创建根组件
+
+      // 插槽的意义：拓展组件能力，提高组件的复用性
+    </script>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>02-2-组件子传父</title>
+  <style>
+    /* 进场动画 */
+    .frey-enter-active {
+      animation: aaa 1.5s;
+    }
+
+    /* 离场动画 */
+    .frey-leave-active {
+      animation: aaa 1.5s reverse;
+    }
+
+    @keyframes aaa {
+      0% {
+        opacity: 0;
+        transform: translateX(-100px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateX(0px);
+      }
+    }
+  </style>
+  <script src="../../lib/vue.js"></script>
+</head>
+
+<body>
+  <div id="box">
+    <button @click="isShow = !isShow">change</button>
+    <transition name="frey">
+      <!-- 有我没他，不能出现并列的情况 -->
+      <div v-if="isShow">1-11111111111111</div>
+      <div v-else="isShow">1-22222222222222</div>
+      <!-- <transition> can only be used on a single element. Use <transition-group> for lists. -->
+      <!-- <Transition>只能在单个元素上使用。 使用<Transition-Group>列表。 -->
+      <!-- <div v-if="isShow">22222222222222</div> -->
+      <!-- <div v-if="isShow">33333333333333</div> -->
+    </transition>
+
+    <transition name="frey">
+      <!-- 出现并列的情况 -->
+      <div v-if="isShow" key="1">2-11111111111111</div>
+      <div v-else="isShow" key="2">2-22222222222222</div>
+    </transition>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#box',
+      data() {
+        return {
+          isShow: true
+        }
+      }
+    }); // 创建根组件
+
+    /**
+     * diff算法：
+     * 1. 同层级对比
+     * 2. 同标签，组件 对比
+     * 3. 同key对比
+     */
+  </script>
+</body>
+
+</html>

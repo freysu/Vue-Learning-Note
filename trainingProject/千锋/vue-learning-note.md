@@ -62,6 +62,10 @@ Object.defineProperty(obj, 'myName', {
 Vue 组件 = Vue 实例 = new Vue(options);
 组件的三大核心概念——属性、事件、插槽
 
+### 为什么组件化？
+
+扩展 HTML 元素，封装可重用的代码
+
 ### Vue.component 缺点
 
 1. 全局定义：强制要求每个 component 中的命名不能重复
@@ -90,3 +94,31 @@ graph LR;
    ```
 
 > 以上内容编写于 2022 年 6 月 10 日 04 点 04 分
+
+#### diff 算法：
+
+1.  同层级对比
+2.  同标签，组件 对比
+3.  同 key 对比
+
+#### transition 过渡
+
+Vue 在插入、更新或者移除 DOM 时，提供多种不同方式的应用过渡效果。
+
+1. 单元素/组件过渡
+
+   - css 过渡
+   - css 动画
+   - 结合 animate.css 动画库
+
+   ```html
+   <transition
+     name="custom-classes-transition"
+     enter-active-class="animated tada"
+     leave-active-class="animated bounceOutRight"
+   >
+     <p v-if="show">hello</p>
+   </transition>
+   ```
+
+2. 多个元素过渡（设置 key）
