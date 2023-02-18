@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-div{
-  background-color:orange
+div {
+  background-color: orange;
 }
 </style>
