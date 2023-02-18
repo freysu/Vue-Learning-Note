@@ -1,0 +1,18 @@
+# /node_modules/* and /bower_components/* ignored by default
+
+# Ignore built files except build/index.js
+**/build/*
+!**/build/index.js
+
+**/settings.json
+
+**/node_modules
+**/dist
+**/src/assets/js
+**/src/views
+**/package-lock.json
+**/.DS_Store
+**/vue.config.js
+**/vue.js
+**/vue.next.js
+**/.eslintrc.js

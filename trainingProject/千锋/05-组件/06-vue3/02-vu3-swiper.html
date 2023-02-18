@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-vue3-swiper</title>
+    <script src="../../lib/vue.next.js"></script>
+    <link
+      href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/Swiper/6.8.4/swiper-bundle.css"
+      type="text/css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/Swiper/6.8.4/swiper-bundle.min.js"
+      type="application/javascript"
+    ></script>
+    <!-- <script src="./module/vue-swiper.js"></script> -->
+    <style>
+      .frey {
+        /* height: 500px; */
+        width: 100%;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="box">
+      <header>导航 - {{myname}}</header>
+      <swiper :loop="true" v-if="datalist.length">
+        <swiper-item v-for="(data,index) in datalist" :key="data">
+          <img :src="data" alt="" />
+        </swiper-item>
+      </swiper>
+      <footer>底部</footer>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        el: '#box',
+        data() {
+          return {
+            myname: '',
+            datalist: []
+          }
+        },
+        mounted() {
+          // 异步
+          setTimeout(() => {
+            this.datalist = ['./img/1.jpg', './img/2.jpg', './img/3.jpg']
+          }, 2000)
+        }
+      })
+
+      app.component('swiper', {
+        props: {
+          loop: {
+            type: Boolean,
+            default: true
+          }
+        },
+        template: `
+            <div class="swiper frey">
+                <div class="swiper-wrapper">
+                    <slot></slot>
+                </div>
+                <!-- 如果需要分页器 -->
+                <div class="swiper-pagination"></div>
+                <!-- 如果需要导航按钮 -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+    `,
+        mounted() {
+          console.log('mounted')
+          var mySwiper = new Swiper('.frey', {
+            loop: this.loop, // 循环模式选项
+            autoplay: {
+              delay: 2500,
+              disableOnInteraction: false
+            },
+            // 如果需要分页器
+            pagination: {
+              el: '.swiper-pagination'
+            },
+
+            // 如果需要前进后退按钮
+            navigation: {
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev'
+            }
+          })
+          console.log('loop:', this.loop)
+        },
+        destroyed() {
+          console.log('destroyed: ')
+        }
+      })
+
+      app.component('swiperItem', {
+        template: `<div class="swiper-slide"><slot></slot></div>`
+      })
+
+      app.mount('#box')
+    </script>
+  </body>
+</html>

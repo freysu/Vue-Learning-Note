@@ -1,8 +1,24 @@
 {
-  "favorites.resources": [
-    {
-      "filePath": "template.html",
-      "group": "Default"
-    }
-  ]
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/lib": true,
+    ".editorconfig": true,
+    ".eslintignore": true,
+    ".eslintrc.js": true,
+    ".markdownlint.yml": true,
+    ".prettierrc.yml": true,
+    "package.json": true,
+    ".gitignore": true
+  },
+  "todo-tree.filtering.excludeGlobs": [
+    "/**/node_modules/",
+    "**/vue.js",
+    "**/vue.next.js"
+  ],
+  "cSpell.words": [
+    "Avenir",
+    "myname",
+    "vnode"
+  ],
+  "vue3snippets.enable-compile-vue-file-on-did-save-code": false
 }

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <script src="../../lib/vue.next.js"></script>
+  </head>
+
+  <body>
+    <div id="box">
+      {{myname}}
+      <navbar :myname="myname">
+        <div>111111111</div>
+      </navbar>
+      <sidebar :myname="myname"></sidebar>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        el: '#box',
+        data() {
+          return {
+            myname: 'frey'
+          }
+        },
+        // beforeCreate() {},
+        created() {
+          console.log('created: ')
+        },
+        // beforeMount() {},
+        mounted() {
+          console.log('mounted: ')
+        }
+        // beforeUpdate() {},
+        // updated() {}
+        // // vue3 的 beforeDestroy 和 destroyed被替换成 beforeUnmount 和 unmounted
+        // beforeDestroy() {},
+        // destroyed() {},
+        // beforeUnmount() {},
+        // unmounted() {}
+      })
+      app.component('navbar', {
+        props: ['myname'],
+        template: `
+        <div>
+            navbar - {{myname}}
+            <slot></slot>
+        </div>
+        `
+      })
+      app.component('sidebar', {
+        props: ['myname'],
+        template: `
+        <div>
+            sidebar - {{myname}}
+            <slot></slot>
+        </div>
+        `
+      })
+      app.mount('#box')
+
+      // vue2 类写法
+      // vue3 类（>90%一样） hooks（函数式）
+    </script>
+  </body>
+</html>

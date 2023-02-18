@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-vue-swiper</title>
+    <script src="../../lib/vue.js"></script>
+    <link href="../../lib/swiper-bundle.css" type="text/css" rel="stylesheet" />
+    <script src="../../lib/swiper-bundle.min.js"></script>
+    <style>
+      .frey {
+        /* height: 500px; */
+        width: 100%;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="box">
+      <header>导航 - {{myname}}</header>
+      <div class="swiper frey">
+        <div class="swiper-wrapper">
+          <div
+            class="swiper-slide"
+            v-for="(data,index) in datalist"
+            :key="data"
+          >
+            <img :src="data" alt="" />
+          </div>
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+        <!-- 如果需要导航按钮 -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+      <footer>底部</footer>
+    </div>
+    <script>
+      var vm = new Vue({
+        el: '#box',
+        data: {
+          datalist: [],
+          myname: ''
+        },
+        mounted() {
+          // 异步
+          setTimeout(() => {
+            this.datalist = [
+              '../05-swiper/img/1.jpg',
+              '../05-swiper/img/2.jpg',
+              '../05-swiper/img/3.jpg'
+            ]
+          }, 2000)
+        },
+        // 不管怎么样都会触发的
+        updated() {
+          initSwiper()
+
+          function initSwiper() {
+            var mySwiper = new Swiper('.frey', {
+              loop: true, // 循环模式选项
+              autoplay: {
+                delay: 2500,
+                disableOnInteraction: false
+              },
+              // 如果需要分页器
+              pagination: {
+                el: '.swiper-pagination'
+              },
+
+              // 如果需要前进后退按钮
+              navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+              }
+            })
+          }
+        }
+      })
+
+      /**
+       * 1. 无法复用
+       * 2. 如果当前页面，状态不止datalist一个，
+       * 其他状态更新，update重新运行,
+       * new Swiper 执行多次！
+       */
+    </script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<!--
+ * @Author: freysu
+ * @Date: 2022-11-19 18:30:52
+ * @LastEditors: freysu
+ * @LastEditTime: 2022-11-20 12:50:30
+ * @Description: file content
+-->
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-指令</title>
+    <script src="../../lib/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="box">
+      <div v-hello="'yellow'">111111</div>
+      <div v-hello="'red'">2222</div>
+      <div v-hello="whichColor">2222</div>
+    </div>
+    <script>
+      // 指令：为了操作底层DOM， 作者给留方案
+      // NOTE 实际应用： **可以通过指令知道什么时候dom创建完成**，从而进行，依赖dom的库的初始化工作
+
+      Vue.directive('hello', {
+        // 指令的生命周期函数
+        inserted(el, binding, vnode) {
+          // 第一次被插入到父节点中触发
+          console.log('inserted', el)
+          console.log('binding: ')
+          el.style.background = binding.value
+        },
+        update(el, binding, vnode, oldVnode) {
+          // 每次更新的时候会触发
+          console.log('update: ', update)
+          el.style.background = binding.value
+        }
+      })
+
+      // v-name
+      Vue.directive('name', {
+        // 只调用一次，指令第一次绑定到元素时调用。在这里可以进行一次性的初始化设置。
+        bind(el, binding, vnode) {},
+        // 被绑定元素插入父节点时调用（仅保证父节点存在，但不一定已被插入文档中）。
+        inserted(el, binding, vnode) {},
+        // 所在组件的VNode更新时调用，但是可能发生在其子VNode更新之前。指令的值可能发生了改变，也可能没有。但是你可以通过比较更新前后的值来忽略不必要的模板更新。
+        update(el, binding, vnode, oldVnode) {},
+        // 指令所在组件的VNode及其子VNode全部更新后调用。
+        componentUpdated(el, binding, vnode) {},
+        // 只调用一次，指令与元素解绑时调用。
+        unbind(el, binding, vnode) {}
+      })
+
+      var vm = new Vue({
+        el: '#box',
+        data() {
+          return {
+            whichColor: 'blue'
+          }
+        },
+        methods: {},
+        computed: {},
+        watch: {}
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,98 @@
+<!--
+ * @Author: freysu
+ * @Date: 2022-11-19 19:13:09
+ * @LastEditors: freysu
+ * @LastEditTime: 2022-11-20 16:50:16
+ * @Description: file content
+-->
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-指令-轮播</title>
+    <script src="../../lib/vue.js"></script>
+    <link href="../../lib/swiper-bundle.css" type="text/css" rel="stylesheet" />
+    <script src="../../lib/swiper-bundle.min.js"></script>
+    <style>
+      .frey {
+        /* height: 500px; */
+        width: 100%;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="box">
+      <header>导航-{{myname}}</header>
+      <div class="swiper-container frey">
+        <div class="swiper-wrapper">
+          <div
+            class="swiper-slide"
+            v-for="(data,index) in datalist"
+            :key="data"
+            v-swiper="{index,length:datalist.length}"
+          >
+            <img :src="data" alt="" />{{index}}
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+      <footer>底部</footer>
+    </div>
+    <script>
+      Vue.directive('swiper', {
+        inserted(el, binding, vnode) {
+          console.log(el, binding.value)
+          const { index, length } = binding.value
+          if (index === length - 1) {
+            console.log('new swiper')
+            mySwiper = new Swiper('.frey', {
+              loop: this.loop, // 循环模式选项
+              autoplay: {
+                delay: 2500,
+                disableOnInteraction: false
+              },
+              // 如果需要分页器
+              pagination: {
+                el: '.swiper-pagination'
+              },
+
+              // 如果需要前进后退按钮
+              navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+              }
+            })
+          }
+        },
+        update(el, binding, vnode, oldVnode) {
+          console.log(el)
+        }
+      })
+
+      var vm = new Vue({
+        el: '#box',
+        data() {
+          return {
+            myname: 'frey',
+            datalist: []
+          }
+        },
+        mounted() {
+          // 异步
+          setTimeout(() => {
+            this.datalist = ['./img/1.jpg', './img/2.jpg', './img/3.jpg']
+          }, 2000)
+        }
+      })
+    </script>
+  </body>
+</html>

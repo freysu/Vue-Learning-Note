@@ -1,3 +1,5 @@
+# Vue
+
 [toc]
 
 ## 引入 Vue
@@ -14,9 +16,9 @@
     }
     // vue-cli版本
     // data() {
-    // 	return {
-    // 		myName: "freysu"
-    // 	}
+    //  return {
+    //   myName: "freysu"
+    //  }
     // }
   })
 </script>
@@ -34,10 +36,10 @@ Object.defineProperty 是 ES5 中一个无法 shim 的特性，这也就是 Vue 
 
 Object.defineProperty 有以下缺点。
 
-1.  无法监听 ES6 的 Set、Map 变化；
-2.  无法监听 Class 类型的数据
-3.  属性的新加或者删除也无法监听
-4.  数组元素的增加和删除也无法监听
+1. 无法监听 ES6 的 Set、Map 变化；
+2. 无法监听 Class 类型的数据
+3. 属性的新加或者删除也无法监听
+4. 数组元素的增加和删除也无法监听
 
 针对 Object.defineProperty 的缺点，ES6 Proxy 都能够完美地解决。它唯一的缺点就是对 IE 不友好，所以 Vue3 在检测到如果是使用 IE 的情况下（没错，IE11 都不支持 Proxy），会自动降级为 Object.defineProperty 的数据监听系统。
 
@@ -95,11 +97,11 @@ graph LR;
 
 > 以上内容编写于 2022 年 6 月 10 日 04 点 04 分
 
-#### diff 算法：
+#### diff 算法
 
-1.  同层级对比
-2.  同标签，组件 对比
-3.  同 key 对比
+1. 同层级对比
+2. 同标签，组件 对比
+3. 同 key 对比
 
 #### transition 过渡
 
@@ -122,3 +124,54 @@ Vue 在插入、更新或者移除 DOM 时，提供多种不同方式的应用�
    ```
 
 2. 多个元素过渡（设置 key）
+
+### 自定义指令
+
+1. 自定义指令 directives - 对普通 DOM 元素进行底层操作
+
+### 单文件组件
+
+node,npm,webpack,babel,sass,postcss,...,vue-cli
+
+## SPA
+
+SPA：单页面应用（SinglePage Web Application）
+
+MPA：多页面应用（MultiPage Application）
+
+|                      | 单页面应用（SinglePage Web Application,SPA）                           | 多页面应用（MultiPage Application,MPA）       |
+| -------------------- | ---------------------------------------------------------------------- | --------------------------------------------- |
+| 组成                 | 一个外壳页面和多个页面片段组成                                         | 多个完整页面构成                              |
+| 资源共用(css,js,...) | 共用，只需在外壳部分加载                                               | 不共用，每个页面都需要加载                    |
+| 刷新方式             | 页面局部刷新或更改                                                     | 整页刷新                                      |
+| url 模式             | `a.com/#/pageone`</br>`a.com/#/pagetwo`                                | `a.com/pageone.html`</br>`a.com/pagetwo.html` |
+| 用户体验             | 页面片段间的切换快，用户体验良好                                       | 页面切换加载缓慢，流畅度不够，用户体验比较差  |
+| 转场动画             | 容易实现                                                               | 无法实现                                      |
+| 数据传递             | 容易                                                                   | 依赖 url 传参或者 cookie、localStorage 等     |
+| 搜索引擎优化(SEO)    | 需要单独方案，实现较为困难，不利于 SEO 检索，可利用服务端渲染(SSR)优化 | 实现方法简易                                  |
+| 适用范围             | 高要求的体验度、追求界面流畅的应用                                     | 适用于追求高度支持搜索引擎的应用              |
+| 开发成本             | 较高，常需借助专业的框架                                               | 较低，但页面重复代码多                        |
+| 维护成本             | 相对容易                                                               | 相对复杂                                      |
+
+## Vue-router
+
+- 动态路由匹配
+- 嵌套路由
+- 编程式导航（js跳转）vs 声明式导航`<router-link>`
+
+  ```vue-html
+  <router-link v-shot="{navigate,isActive}" to="films" custom>
+    <li :class="isActive?'frey-active':''" @click="navigate">films</li>
+  </router-link>
+  ```
+
+- 命名路由（`$route.name`获取命名路由的名字）
+- 重定向和别名
+
+  ```js
+  const router = new VueRouter({
+    routes:[
+      {path:"/a",redirect:"/b"}
+    ]
+  })
+  ```
